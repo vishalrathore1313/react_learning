@@ -1,90 +1,332 @@
 import React, { useState } from "react";
-function AboutUs() {
-  const [currentQuestion, setCurrentQuestion] = useState({ question: "", answer: "" });
-  cons  const [questions, setQuestions] = useState([]);
-t [isEditing, setIsEditing] = useState(null); // Track which item is being edited
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setCurrentQuestion((prev) => ({ ...prev, [name]: value }));
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+
+const formValidation = Yup.object().shape({
+  name: Yup.string().min(2, "Too short").max(12, "Too long").required("Required"),
+  surname: Yup.string().min(2, "Too short").max(12, "Too long").required("Required"),
+  email: Yup.string().email("Invalid Email").required("Required"),
+});
+
+function App() {
+  const [dataRows, setDataRows] = useState([]);
+  const [editingRowIndex, setEditingRowIndex] = useState(null);
+
+  const handleEdit = (index) => {
+    setEditingRowIndex(index);
   };
-  const handleAddQuestion = () => {
-    if (currentQuestion.question && currentQuestion.answer) {
-      setQuestions((prev) => [...prev, currentQuestion]);
-      setCurrentQuestion({ question: "", answer: "" });
-    }
-  };
-  const handleEditQuestion = (index) => {
-    setCurrentQuestion(questions[index]);
-    setIsEditing(index);
-  };
-  const handleUpdateQuestion = () => {
-    if (currentQuestion.question && currentQuestion.answer) {
-      setQuestions((prev) =>
-        prev.map((item, index) => (index === isEditing ? currentQuestion : item))
-      );
-      setCurrentQuestion({ question: "", answer: "" });
-      setIsEditing(null);
-    }
-  };
-  const handleDeleteQuestion = (index) => {
-    setQuestions((prev) => prev.filter((_, i) => i !== index));
-  };
+
   return (
-    <div className="h-screen w-screen flex items-center justify-center bg-yellow-200">
-      <div className="w-full max-w-lg mx-auto shadow-md rounded-lg px-4 py-3 my-8 bg-gray-600 text-orange-500">
-        <h1 className="text-center">Questions</h1>
-        <div className="flex shadow rounded-lg overflow-hidden mb-4">
-          <input
-            type="text"
-            name="question"
-            value={currentQuestion.question}
-            className="outline-none w-full py-1 px-3"
-            placeholder="Question"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="flex shadow rounded-lg overflow-hidden mb-4">
-          <input
-            type="text"
-            name="answer"
-            value={currentQuestion.answer}
-            className="outline-none w-full py-1 px-3"
-            placeholder="Answer"
-            onChange={handleChange}
-          />
-        </div>
-        <button
-          onClick={isEditing === null ? handleAddQuestion : handleUpdateQuestion}
-          className="outline-none bg-blue-600 text-white px-3 py-1 mt-2 w-full hover:bg-sky-900"
+    <div className="flex items-center justify-center min-h-screen bg-orange-200">
+      <div className="w-full max-w-md rounded-2xl bg-gray-300 p-6">
+        <Formik
+          initialValues={{ name: "", surname: "", email: "" }}
+          validationSchema={formValidation}
+          enableReinitialize={true}
+          onSubmit={(values, { resetForm }) => {
+            if (editingRowIndex !== null) {
+              // Update existing row
+              const updatedRows = dataRows.map((row, idx) =>
+                idx === editingRowIndex ? values : row
+              );
+              setDataRows(updatedRows);
+              setEditingRowIndex(null);
+            } else {
+              // Add new row
+              setDataRows([...dataRows, values]);
+            }
+            resetForm();
+          }}
         >
-          {isEditing === null ? "Add Question" : "Update Question"}
-        </button>
-        <div className="mt-6">
-          {questions.map((item, index) => (
-            <div key={index} className="mb-4">
-              <div className="flex items-center justify-between shadow rounded-lg overflow-hidden">
-                <div className="w-full px-3 py-1 bg-white">
-                  <p><strong>Q:</strong> {item.question}</p>
-                  <p><strong>A:</strong> {item.answer}</p>
-                </div>
-                <button
-                  onClick={() => handleEditQuestion(index)}
-                  className="outline-none bg-green-600 text-white px-3 py-0.5 hover:bg-green-700"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDeleteQuestion(index)}
-                  className="outline-none bg-red-600 text-white px-3 py-0.5 hover:bg-red-700"
-                >
-                  Delete
-                </button>
+          {({ setValues, resetForm }) => (
+            <Form>
+              <div>
+                <label>Name:</label>
+                <Field
+                  name="name"
+                  placeholder="Enter Your Name"
+                  className="shadow rounded-lg overflow-hidden mb-4 bg-white"
+                />
+                <ErrorMessage name="name" component="div" className="text-red-600" />
               </div>
-            </div>
-          ))}
-        </div>
+
+              <div>
+                <label>Surname:</label>
+                <Field
+                  name="surname"
+                  placeholder="Enter Your Surname"
+                  className="shadow rounded-lg overflow-hidden mb-4 bg-white"
+                />
+                <ErrorMessage name="surname" component="div" className="text-red-600" />
+              </div>
+
+              <div>
+                <label>Email:</label>
+                <Field
+                  type="email"
+                  name="email"
+                  placeholder="Enter Your Email"
+                  className="shadow rounded-lg overflow-hidden mb-4 bg-white"
+                />
+                <ErrorMessage name="email" component="div" className="text-red-600" />
+              </div>
+
+              <button
+                type="submit"
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2"
+              >
+                {editingRowIndex !== null ? "Update" : "Submit"}
+              </button>
+            </Form>
+          )}
+        </Formik>
+
+        <table className="mt-6 w-full">
+          <thead>
+            <tr>
+              <th className="text-left">Name</th>
+              <th className="text-left">Surname</th>
+              <th className="text-left">Email</th>
+              <th className="text-left">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {dataRows.map((row, index) => (
+              <tr key={index}>
+                <td>{row.name}</td>
+                <td>{row.surname}</td>
+                <td>{row.email}</td>
+                <td>
+                  <button
+                    onClick={() => {
+                      setValues(row); // Load the row data into form fields
+                      setEditingRowIndex(index);
+                    }}
+                    className="text-white bg-green-500 px-2 py-1 rounded-lg"
+                  >
+                    Edit
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
 }
-export default AboutUs;
+
+export default App;
+
+
+
+
+
+import React, { useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+
+const formvalidation = Yup.object().shape({
+  name: Yup.string()
+    .min(2, "too short name")
+    .max(12, "too long name")
+    .required("Required"),
+  surname: Yup.string()
+    .min(2, "too short surname")
+    .max(12, "too long surname")
+    .required("Required"),
+  email: Yup.string().email("Invalid Email").required("Required"),
+  // image: Yup.mixed().required("Image Required"),
+});
+
+function App() {
+  // const [previewImage, setPreviewImage] = useState(null);
+  const [data, setData] = useState([]);
+  const [editingIndex, setEditingIndex] = useState(null);
+
+  const handleDeleteQuestion = (index) => {
+    setData((prev) => prev.filter((item, i) => i !== index));
+  };
+
+  const handleEditQuestion = (index, setValues) => {
+    const row = data[index];
+    setValues(row);
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-orange-200">
+      <div className=" w-full max-w-md rounded-2xl bg-gray-300 p-6 mb-8">
+        <Formik
+          initialValues={{ name: "", surname: "", email: "" /*image: null*/ }}
+          validationSchema={formvalidation}
+          enableReinitialize={true}
+          onSubmit={(value, { resetForm }) => {
+            // setPreviewImage(URL.createObjectURL(value.image));
+            setData([
+              ...data,
+              { name: value.name, surname: value.surname, email: value.email },
+            ]);
+            resetForm();
+          }}
+        >
+          {({ /*setFieldValue,*/ resetForm, setValues }) => (
+            <Form>
+              <div>
+                <div className="flex">
+                  <label htmlFor="">Name:</label>
+                  <Field
+                    id="name"
+                    name="name"
+                    placeholder="Enter Your Name"
+                    className="shadow rounded-lg overflow-hidden mb-4 bg-white"
+                  />
+                </div>
+                <ErrorMessage
+                  name="name"
+                  component="div"
+                  style={{ color: "red" }}
+                />
+              </div>
+
+              <div>
+                <div className="flex">
+                  <label htmlFor="">Surname:</label>
+                  <Field
+                    id="surname"
+                    name="surname"
+                    placeholder="Enter Your Surname"
+                    className="shadow rounded-lg overflow-hidden mb-4 bg-white"
+                  />
+                </div>
+                <ErrorMessage
+                  name="surname"
+                  component="div"
+                  style={{ color: "red" }}
+                />
+              </div>
+
+              <div>
+                <div className="flex">
+                  <label htmlFor="">Email:</label>
+                  <Field
+                    id="email"
+                    type="email"
+                    name="email"
+                    placeholder="Enter Your Email"
+                    className="shadow rounded-lg overflow-hidden mb-4 bg-white"
+                  />
+                </div>
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  style={{ color: "red" }}
+                />
+              </div>
+
+              {/* <div>
+                <div className="flex">
+                  <label htmlFor="">Image:</label>
+                  <input
+                    id="image"
+                    type="file"
+                    name="image"
+                    accept="image/*"
+                    onChange={(event) =>
+                      setFieldValue("image", event.currentTarget.files[0])
+                    }
+                    className="shadow rounded-lg overflow-hidden mb-4 bg-white"
+                  />
+                </div>
+
+                <ErrorMessage
+                  name="image"
+                  component="div"
+                  style={{ color: "red" }}
+                />
+              </div> */}
+
+              <button
+                type="submit"
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+              >
+                Submit
+              </button>
+            </Form>
+          )}
+        </Formik>
+
+        {/* {previewImage && (
+          <div>
+            <img src={previewImage} alt="" className="w-48 h-48" />
+          </div>
+        )} */}
+      </div>
+
+      <div className="relative overflow-x-auto rounded-2xl">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" className="px-6 py-3">
+                Name
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Surname
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Email
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          {data &&
+            data.length > 0 &&
+            data.map((item, index) => (
+              <tbody key={index}>
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    {item.name}
+                  </th>
+
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    {item.surname}
+                  </th>
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    {item.email}
+                  </th>
+                  <th>
+                    <button
+                      onClick={() => {
+                        handleEditQuestion(index,setValues);
+                      }}
+                      className="outline-none bg-green-600 text-white px-3 py-0.5 hover:bg-green-700"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteQuestion(index)}
+                      className="outline-none bg-red-600 text-white px-3 py-0.5 hover:bg-red-700"
+                    >
+                      Delete
+                    </button>
+                  </th>
+                </tr>
+              </tbody>
+            ))}
+        </table>
+      </div>
+    </div>
+  );
+}
+
+export default App;
