@@ -1,0 +1,139 @@
+import React, { useContext } from "react";
+import UserContext from "../context/UserContext";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import styled from "styled-components";
+
+const formvalidation = Yup.object().shape({
+  name: Yup.string()
+    .min(2, "too short name")
+    .max(12, "too long name")
+    .required("Required"),
+  surname: Yup.string()
+    .min(2, "too short surname")
+    .max(12, "too long surname")
+    .required("Required"),
+  email: Yup.string().email("Invalid Email").required("Required"),
+});
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f97316;
+`;
+
+const Card = styled.div`
+  width: 100%;
+  max-width: 400px;
+  border-radius: 16px;
+  background-color: #d1d5db;
+  padding: 24px;
+`;
+
+const FieldContainer = styled.div`
+  margin-bottom: 16px;
+`;
+
+const Label = styled.label`
+  display: block;
+  font-size: 16px;
+  margin-bottom: 4px;
+`;
+
+const StyledField = styled(Field)`
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: #ffffff;
+  margin-bottom: 4px;
+`;
+
+const ErrorMessageText = styled.div`
+  color: red;
+  font-size: 12px;
+`;
+
+const SubmitButton = styled.button`
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #1d4ed8;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  &:hover {
+    background-color: #1e3a8a;
+  }
+  &:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+  }
+`;
+
+function FormCard({ setShow }) {
+  const { setData, data, editingIndex, setEditingIndex } = useContext(UserContext);
+
+  return (
+    <Container>
+      <Card>
+        <Formik
+          initialValues={{
+            name: editingIndex !== null ? data[editingIndex].name : "",
+            surname: editingIndex !== null ? data[editingIndex].surname : "",
+            email: editingIndex !== null ? data[editingIndex].email : "",
+          }}
+          validationSchema={formvalidation}
+          enableReinitialize={true}
+          onSubmit={(value, { resetForm }) => {
+            if (editingIndex !== null) {
+              let updatedData = data;
+              updatedData[editingIndex] = value;
+              setData(updatedData);
+              setEditingIndex(null);
+              setShow(false);
+            } else {
+              setData([...data, value]);
+              setShow(false);
+            }
+            resetForm();
+          }}
+        >
+          {({ values }) => (
+            <Form>
+              <FieldContainer>
+                <Label htmlFor="name">Name:</Label>
+                <StyledField id="name" name="name" placeholder="Enter Your Name" />
+                <ErrorMessage name="name" component={ErrorMessageText} />
+              </FieldContainer>
+
+              <FieldContainer>
+                <Label htmlFor="surname">Surname:</Label>
+                <StyledField id="surname" name="surname" placeholder="Enter Your Surname" />
+                <ErrorMessage name="surname" component={ErrorMessageText} />
+              </FieldContainer>
+
+              <FieldContainer>
+                <Label htmlFor="email">Email:</Label>
+                <StyledField id="email" type="email" name="email" placeholder="Enter Your Email" />
+                <ErrorMessage name="email" component={ErrorMessageText} />
+              </FieldContainer>
+
+              <SubmitButton
+                type="submit"
+                disabled={!(values.name && values.surname && values.email)}
+              >
+                {editingIndex === null ? "Submit" : "Update"}
+              </SubmitButton>
+            </Form>
+          )}
+        </Formik>
+      </Card>
+    </Container>
+  );
+}
+
+export default FormCard;
