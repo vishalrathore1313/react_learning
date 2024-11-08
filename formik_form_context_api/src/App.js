@@ -9,7 +9,7 @@ function App() {
 
   return(
      <UserContextProvider>
-        <div className="container">
+        <div>
          {show ? <FormCard setShow={setShow}/>:  <TableCard setShow={setShow}/>}
         </div>
      </UserContextProvider>

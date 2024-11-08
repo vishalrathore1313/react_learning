@@ -1,41 +1,83 @@
-import React from "react";
+import React, { useContext, useRef, useState } from "react";
 import styled from "styled-components";
 import { Form, Formik, Field, ErrorMessage } from "formik";
+import UserContext from "../context/UserContext";
 
-function FormCard() {
+function FormCard({ setShow }) {
+  const { data, setData } = useContext(UserContext);
+  const fileRef = useRef(null);
+  const textRef = useRef(null);
   return (
     <Container>
       <Card>
-      <Formik>
-         
-          {() => (
+        <Formik
+          initialValues={{
+            name: "",
+            image: null,
+            text: "",
+          }}
+          onSubmit={(values, { resetForm }) => {
+            values.image=URL.createObjectURL(values.image);
+
+            setData([...data, values]);
+            if (fileRef.current && textRef.current) {
+              fileRef.current.value = "";
+              textRef.current.value = "";
+            }
+            console.log(values);
+            console.log(values.image);
+            console.log(data);
+            resetForm();
+          }}
+        >
+          {({ setFieldValue }) => (
             <Form>
-               <FieldContainer>
-                <Label htmlFor="name">Author Name:</Label>
-                <StyledField id="name" name="name" placeholder="Enter Your Name" />
-                <ErrorMessage name="name" component={ErrorMessageText} />
+              <FieldContainer>
+                <Label>Name:</Label>
+                <StyledField
+                  id="name"
+                  name="name"
+                  placeholder="Enter Your Name"
+                />
+                <ErrorMessage name="name" component="div" />
               </FieldContainer>
 
-               <FieldContainer>
-                <Label htmlFor="name">Image:</Label>
-                <StyledField id="image" name="image" placeholder="Enter Your Name" />
-                <ErrorMessage name="name" component={ErrorMessageText} />
+              <FieldContainer>
+                <Label>Image:</Label>
+                <ImageField
+                  id="image"
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  onChange={(event) =>
+                    setFieldValue("image", event.currentTarget.files[0])
+                  }
+                  ref={fileRef}
+                />
+                <ErrorMessage name="image" component="div" />
               </FieldContainer>
 
-               <FieldContainer>
-                <Label htmlFor="name"> Discription:</Label>
-                <StyledField id="name" name="name" placeholder="Enter Your Name" />
-                <ErrorMessage name="name" component={ErrorMessageText} />
+              <FieldContainer>
+                <Label>Discription:</Label>
+                <TextField
+                  id="text"
+                  name="text"
+                  type="text"
+                  onChange={(event) =>
+                    setFieldValue("text", event.target.value)
+                  }
+                  ref={textRef}
+                />
+                <ErrorMessage name="text" component="div" />
               </FieldContainer>
 
-              <SubmitButton
-                type="submit"
-              >
-                Submit
-              </SubmitButton>
+              <FieldContainer>
+                <Button type="submit">Submit</Button>
+              </FieldContainer>
             </Form>
           )}
         </Formik>
+           <button onClick={() => setShow(false)} disabled={data.length<=0}>See Items</button>
       </Card>
     </Container>
   );
@@ -45,55 +87,58 @@ export default FormCard;
 
 const Container = styled.div`
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   min-height: 100vh;
-  background-color: #f5e6ce;
+  background-color: #facf93;
 `;
 
 const Card = styled.div`
   width: 100%;
   max-width: 400px;
   border-radius: 16px;
-  background-color: #d1d5db;
-  padding: 24px;
+  padding: 20px;
+  background-color: #969ea8;
 `;
 
 const FieldContainer = styled.div`
- display: block; 
-margin-bottom: 16px;
+  display: flex;
+  margin-bottom: 15px;
+  gap: 10px;
 `;
 
 const Label = styled.label`
-  display: block;
-  font-size: 16px;
-  margin-bottom: 4px;
+  font-size: 20px;
 `;
 
 const StyledField = styled(Field)`
   width: 100%;
-  padding: 8px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  background-color: #ffffff;
-  margin-bottom: 4px;
+  height: 25px;
+  border-radius: 6px;
+  font-size: 18px;
 `;
 
-const ErrorMessageText = styled.div`
-  color: red;
-  font-size: 12px;
+const ImageField = styled.input`
+  width: 100%;
+  border-radius: 6px;
 `;
 
-const SubmitButton = styled.button`
-  width: 2  0%;
-  padding: 10px;
+const TextField = styled.textarea`
+  width: 100%;
+  border-radius: 6px;
+  font-size: 18px;
+`;
+
+const Button = styled.button`
+  width: 20%;
   font-size: 16px;
-  color: #ffffff;
-  background-color: #1d4ed8;
+  color: white;
+  padding: 10px;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
+  background-color: #1d4ed8;
   cursor: pointer;
   &:hover {
-    background-color: #1e3a8a;
+    background-color: #0b1be6;
   }
 `;
