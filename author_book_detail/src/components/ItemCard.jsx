@@ -3,7 +3,7 @@ import UserContext from "../context/UserContext";
 import styled from "styled-components";
 
 function ItemCard({ setShow }) {
-  const { data, setData } = useContext(UserContext);
+  const { data, setData,editingIndex,setEditingIndex} = useContext(UserContext);
   const [count, setCount] = useState(0);
 
   const handleDeleteQuestion = (index) => {
@@ -11,7 +11,11 @@ function ItemCard({ setShow }) {
     setData((prev) => prev.filter((_, i) => i !== index));
     setCount(count-1);
   };
-  const handleEditQuestion = () => {};
+  const handleEditQuestion = (count) => {
+    setEditingIndex(count);
+    setShow(true);
+    console.log("in edit button"+"count/index=>"+count+" "+data[count].name+" "+data[count].email+" "+count+data[count].image+" "+count+data[count].text);
+  };
 
   console.log(count);
   return (
@@ -25,6 +29,12 @@ function ItemCard({ setShow }) {
                   <TableData>
                     {" "}
                     Name: {data[count].name} {count}
+                  </TableData>
+                </TableRow>
+                <TableRow>
+                  <TableData>
+                    {" "}
+                    Email: {data[count].email}
                   </TableData>
                 </TableRow>
                 <TableRow>
@@ -70,7 +80,7 @@ function ItemCard({ setShow }) {
           ) : (
             ""
           )}
-          <button onClick={() => setShow(true)}>See form</button>
+          {data.length<1?setShow(true):<button onClick={() => setShow(true)}>See form</button>}
         </Card>
       </Container>
     </>
