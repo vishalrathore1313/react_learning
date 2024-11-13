@@ -5,20 +5,18 @@ import Demoimage from "../image/demoimage.jpg";
 const UserContextProvider = ({ children }) => {
   const [priceRange, setPriceRang] = useState();
   const [category, setCategory] = useState();
-  const [products, setProducts] = useState([
+  const [cartItem, setCartItem] = useState([]);
+  const [quantity, setQuantity] = useState([
     {
-      id: 0,
-      title: "T-shirt",
-      price: "200",
-      category: "clothing",
-      description:
-        "bhbhjsbhjdbjhwbdjwbdhwbdwbdhwbdjnqwjkdnjqwndjkqwndjnqwdjnwqhdhwd",
-      image: Demoimage,
-    },
+      id: null,
+      count: 1
+    }
+  ]);
+  const [products, setProducts] = useState([
     {
       id: 1,
       title: "T-shirt",
-      price: "100",
+      price: "101",
       category: "clothing",
       description:
         "bhbhjsbhjdbjhwbdjwbdhwbdwbdhwbdjnqwjkdnjqwndjkqwndjnqwdjnwqhdhwd",
@@ -37,7 +35,7 @@ const UserContextProvider = ({ children }) => {
       id: 3,
       title: "T-Shirt",
       price: "23",
-      category: "cloth",
+      category: "clothing",
       description:
         "bhbhjsbhjdbjhwbdjwbdhwbdwbdhwbdjnqwjkdnjqwndjkqwndjnqwdjnwqhdhwd",
       image: Demoimage,
@@ -46,7 +44,7 @@ const UserContextProvider = ({ children }) => {
       id: 4,
       title: "T-Shirt",
       price: "78",
-      category: "cloth",
+      category: "clothing",
       description:
         "bhbhjsbhjdbjhwbdjwbdhwbdwbdhwbdjnqwjkdnjqwndjkqwndjnqwdjnwqhdhwd",
       image: Demoimage,
@@ -55,7 +53,7 @@ const UserContextProvider = ({ children }) => {
       id: 5,
       title: "T-Shirt",
       price: "12",
-      category: "cloth",
+      category: "clothing",
       description:
         "bhbhjsbhjdbjhwbdjwbdhwbdwbdhwbdjnqwjkdnjqwndjkqwndjnqwdjnwqhdhwd",
       image: Demoimage,
@@ -64,68 +62,133 @@ const UserContextProvider = ({ children }) => {
       id: 6,
       title: "T-Shirt",
       price: "156",
-      category: "cloth",
+      category: "clothing",
       description:
         "bhbhjsbhjdbjhwbdjwbdhwbdwbdhwbdjnqwjkdnjqwndjkqwndjnqwdjnwqhdhwd",
       image: Demoimage,
     },
     {
       id: 7,
-      title: "T-Shirt",
+      title: "Television",
       price: "67",
-      category: "cloth",
+      category: "electronics",
       description:
         "bhbhjsbhjdbjhwbdjwbdhwbdwbdhwbdjnqwjkdnjqwndjkqwndjnqwdjnwqhdhwd",
       image: Demoimage,
     },
     {
       id: 8,
-      title: "T-Shirt",
+      title: "Television",
       price: "45",
-      category: "cloth",
+      category: "electronics",
       description:
         "bhbhjsbhjdbjhwbdjwbdhwbdwbdhwbdjnqwjkdnjqwndjkqwndjnqwdjnwqhdhwd",
       image: Demoimage,
     },
     {
       id: 9,
-      title: "T-Shirt",
+      title: "Television",
       price: "99",
-      category: "cloth",
+      category: "electronics",
       description:
         "bhbhjsbhjdbjhwbdjwbdhwbdwbdhwbdjnqwjkdnjqwndjkqwndjnqwdjnwqhdhwd",
       image: Demoimage,
     },
     {
       id: 10,
-      title: "T-Shirt",
+      title: "Television",
       price: "78",
-      category: "cloth",
+      category: "electronics",
       description:
         "bhbhjsbhjdbjhwbdjwbdhwbdwbdhwbdjnqwjkdnjqwndjkqwndjnqwdjnwqhdhwd",
       image: Demoimage,
     },
     {
       id: 11,
-      title: "T-Shirt",
+      title: "Television",
       price: "145",
-      category: "cloth",
+      category: "electronics",
       description:
         "bhbhjsbhjdbjhwbdjwbdhwbdwbdhwbdjnqwjkdnjqwndjkqwndjnqwdjnwqhdhwd",
       image: Demoimage,
     },
     {
       id: 12,
-      title: "T-Shirt",
+      title: "Television",
       price: "189",
-      category: "cloth",
+      category: "electronics",
+      description:
+        "bhbhjsbhjdbjhwbdjwbdhwbdwbdhwbdjnqwjkdnjqwndjkqwndjnqwdjnwqhdhwd",
+      image: Demoimage,
+    },
+    {
+      id: 13,
+      title: "Atta",
+      price: "189",
+      category: "groceries",
+      description:
+        "bhbhjsbhjdbjhwbdjwbdhwbdwbdhwbdjnqwjkdnjqwndjkqwndjnqwdjnwqhdhwd",
+      image: Demoimage,
+    },
+    {
+      id: 14,
+      title: "Sugar",
+      price: "45",
+      category: "groceries",
+      description:
+        "bhbhjsbhjdbjhwbdjwbdhwbdwbdhwbdjnqwjkdnjqwndjkqwndjnqwdjnwqhdhwd",
+      image: Demoimage,
+    },
+    {
+      id: 15,
+      title: "Rice",
+      price: "80",
+      category: "groceries",
+      description:
+        "bhbhjsbhjdbjhwbdjwbdhwbdwbdhwbdjnqwjkdnjqwndjkqwndjnqwdjnwqhdhwd",
+      image: Demoimage,
+    },
+    {
+      id: 16,
+      title: "Bread",
+      price: "30",
+      category: "groceries",
+      description:
+        "bhbhjsbhjdbjhwbdjwbdhwbdwbdhwbdjnqwjkdnjqwndjkqwndjnqwdjnwqhdhwd",
+      image: Demoimage,
+    },
+    {
+      id: 17,
+      title: "Biscuits",
+      price: "120",
+      category: "groceries",
+      description:
+        "bhbhjsbhjdbjhwbdjwbdhwbdwbdhwbdjnqwjkdnjqwndjkqwndjnqwdjnwqhdhwd",
+      image: Demoimage,
+    },
+    {
+      id: 18,
+      title: "Namkeen",
+      price: "220",
+      category: "groceries",
       description:
         "bhbhjsbhjdbjhwbdjwbdhwbdwbdhwbdjnqwjkdnjqwndjkqwndjnqwdjnwqhdhwd",
       image: Demoimage,
     },
   ]);
   return (
-    <UserContext.Provider value={{ products, setProducts,priceRange, setPriceRang,category, setCategory}}>
+    <UserContext.Provider
+      value={{
+        products,
+        setProducts,
+        priceRange,
+        setPriceRang,
+        category,
+        setCategory,
+        cartItem,
+        setCartItem,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

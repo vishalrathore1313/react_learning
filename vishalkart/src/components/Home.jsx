@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Navbar from "./Navbar";
+import { Link } from "react-router-dom";
 
 function Home() {
   return (
@@ -9,7 +10,7 @@ function Home() {
         <Navbar />
       </Div1>
       <Div2>
-        <Button>Shop Now</Button>
+        <Link to="/shop"><Span>Shop Now</Span></Link>
       </Div2>
     </Container>
   );
@@ -24,8 +25,7 @@ const Container = styled.div`
 `;
 
 const Div1 = styled.div`
- /* width: 100%;
- height: 100px; */
+
 `;
 
 const Div2 = styled.div`
@@ -40,13 +40,13 @@ const Div2 = styled.div`
   background-size: cover;
 `;
 
-const Button = styled.button`
-  width: 10%;
-  font-size: 130%;
+ const Span= styled.span`
+  font-size: 120%;
+  font-weight: bold;
   color: white;
-  padding: 10px;
+  padding: 12px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   background-color: black;
   cursor: pointer;
   &:hover {
@@ -56,4 +56,4 @@ const Button = styled.button`
   position: absolute;
   top: 400px;
   left: 300px;
-`;
+ `;

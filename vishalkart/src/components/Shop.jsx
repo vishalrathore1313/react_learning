@@ -6,30 +6,42 @@ import Filter from "./Filter";
 import UserContext from "../context/UserContext";
 
 function Shop() {
-    const {products,priceRange, setPriceRang, category, setCategory}=useContext(UserContext);
+  const { products, priceRange, setPriceRang, category, setCategory } =
+    useContext(UserContext);
 
-    const filterProducts= products.filter((product)=>{
+  const filterProducts = products.filter((product) => {
+    const matchCategory = category ? product.category === category : true;
 
-        const matchCategory= category ? product.category === category : true;
+    const matchPrice = priceRange
+      ? (priceRange === "0-50" && product.price >= 0 && product.price <= 50) ||
+        (priceRange === "50-100" &&
+          product.price >= 50 &&
+          product.price <= 100) ||
+        (priceRange === "100-200" &&
+          product.price >= 100 &&
+          product.price <= 200) ||
+        (priceRange == "200+" && product.price >= 200)
+      : true;
 
-        const matchPrice= priceRange ? (priceRange === '0-50' && product.price >= 0 && product.price <=50) || (priceRange === '50-100' && product.price >= 50 && product.price <=100) || (priceRange === '100-150' && product.price >= 100 && product.price <=200) || (priceRange == '200+' && product.price >=200) :true;
 
-
-        return matchCategory && matchPrice;
-    })
-
+    return matchCategory && matchPrice;
+  });
   return (
     <Container>
       <Div1>
         <Navbar />
       </Div1>
       <Div3>
-        <Filter/>
+        <Filter />
       </Div3>
       <Div2>
         {filterProducts &&
           filterProducts.length > 0 &&
-          filterProducts.map((item,index) =>(<div key={index}><Card index={index}/></div>))}
+          filterProducts.map((item, index) => (
+            <div key={index}>
+              <Card item={item} />
+            </div>
+          ))}
       </Div2>
     </Container>
   );

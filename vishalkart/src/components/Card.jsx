@@ -2,19 +2,22 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import UserContext from "../context/UserContext";
 
-function Card({index}) {
-  const { products } = useContext(UserContext);
-
+function Card({item}) {
+  const {cartItem,setCartItem} = useContext(UserContext);
+  console.log("cartItem array in Card=>"+cartItem);
   return (
     <Container>
       <Div1>
         <Img src="./demoimage.jpg" alt="Product Image" />
       </Div1>
       <Div2>
-        <Title>{products[index].title}</Title>
-        <Dis> {products[index].description.substring(0, 10) + "......."}</Dis>
-        <Price>₹{products[index].price}</Price>
+        <Title>{item.title}</Title>
+        <Dis> {item.description.substring(0, 10) + "......."}</Dis>
+        <Price>₹{item.price}</Price>
       </Div2>
+       <Button
+         onClick={()=>(setCartItem([...cartItem,item]))}
+       >Add To Cart</Button>
     </Container>
   );
 }
@@ -54,10 +57,9 @@ const Img = styled.img`
 
 const Div2 = styled.div`
   width: 240px;
-  height: 120px;
+  height: 100px;
   margin-left: 7px;
-  padding-top: 0px;
-  gap: 0px;
+  padding: 0px;
   /* background-color: blue; */
 `;
 
@@ -65,16 +67,31 @@ const Title = styled.p`
   font-size: large;
   font-weight: bold;
   /* background-color: blue; */
-  margin: 8px;
+  margin: 6px;
 `;
 const Dis = styled.p`
   font-size: 18px;
   /* background-color: red; */
-  margin: 8px;
+  margin: 6px;
 `;
 
 const Price = styled.p`
   font-weight: bold;
   /* background-color: yellow; */
-  margin: 8px;
+  margin: 6px;
+`;
+
+const Button= styled.button`
+font-size: 80%;
+font-weight: bold;
+color: white;
+margin: 0;
+padding: 12px;
+border: none;
+border-radius: 8px;
+background-color: #1d4ed8;
+cursor: pointer;
+&:hover {
+  background-color: blue;
+}
 `;

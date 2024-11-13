@@ -1,22 +1,41 @@
 import React from "react";
 import styled from "styled-components";
 import { FaShoppingCart } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
     <Container>
       <Div1>
         <UL>
-          <LI>Home</LI>
-          <LI>Shop</LI>
-          <LI>Contact</LI>
+          <LI>
+            {" "}
+            <Link to="/">
+              <Span>Home</Span>
+            </Link>
+          </LI>
+          <LI>
+            {" "}
+            <Link to="/shop">
+              <Span>Shop</Span>
+            </Link>
+          </LI>
+          <LI>
+            {" "}
+            <Link to="/shop">
+              <Span>Contact</Span>
+            </Link>
+          </LI>
         </UL>
       </Div1>
       <Logo>
         <Img src="./logo.png" alt="Logo should be here" />
       </Logo>
       <Div2>
-        <FaShoppingCart size = '10x'/>
+        <Link to="/cart">
+          <FaShoppingCart size="40px" color="#1d4ed8" />
+        </Link>
+        {/* <FaShoppingCart size="10x" /> */}
         <Button>LogOut</Button>
       </Div2>
     </Container>
@@ -28,7 +47,7 @@ export default Navbar;
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content:space-between;
+  justify-content: space-between;
   width: 100%;
   height: 100px;
   background-color: antiquewhite;
@@ -47,21 +66,22 @@ const UL = styled.ul`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap:40px
+  gap: 40px;
 `;
 
 const LI = styled.li`
   font-size: 130%;
   cursor: pointer;
   &:hover {
-    color:#2455f4;
+    color: #2455f4;
   }
+  text-decoration: none;
 `;
 const Logo = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Img = styled.img`
@@ -69,12 +89,13 @@ const Img = styled.img`
 `;
 
 const Div2 = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
- gap: 40px;
- padding: 35px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  padding: 35px;
+  width: 120px;
 `;
 
 const Button = styled.button`
@@ -87,7 +108,14 @@ const Button = styled.button`
   background-color: #1d4ed8;
   cursor: pointer;
   &:hover {
-    background-color:#2455f4;;
+    background-color: blue;
   }
 `;
 
+const Span = styled.span`
+  color: black;
+  &:hover {
+    color: #2455f4;
+  }
+  text-decoration: none;
+`;

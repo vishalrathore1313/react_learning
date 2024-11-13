@@ -19,7 +19,7 @@ function Filter() {
         <option value="">All Price Range</option>
         <option value="0-50">₹0 - ₹50</option>
         <option value="50-100">₹50 - ₹100</option>
-        <option value="100-150">₹100 - ₹150</option>
+        <option value="100-200">₹100 - ₹200</option>
         <option value="200+">₹200+</option>
       </Select>
     </Container>
