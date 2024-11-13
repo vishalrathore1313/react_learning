@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import UserContext from "../context/UserContext";
 
-function Card() {
+function Card({index}) {
+  const { products } = useContext(UserContext);
+
   return (
     <Container>
       <Div1>
         <Img src="./demoimage.jpg" alt="Product Image" />
       </Div1>
       <Div2>
-        <Title>T-Shirt</Title>
-        <Dis>hbhbhbhh.....</Dis>
-        <Price>$200</Price>
+        <Title>{products[index].title}</Title>
+        <Dis> {products[index].description.substring(0, 10) + "......."}</Dis>
+        <Price>₹{products[index].price}</Price>
       </Div2>
     </Container>
   );
@@ -23,8 +26,8 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 250px;
-  height: 400px;
+  width: 275px;
+  height: 440px;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0px 3px 7px gray;
@@ -61,18 +64,17 @@ const Div2 = styled.div`
 const Title = styled.p`
   font-size: large;
   font-weight: bold;
-    /* background-color: blue; */
-  margin: 8px ;
+  /* background-color: blue; */
+  margin: 8px;
 `;
 const Dis = styled.p`
   font-size: 18px;
   /* background-color: red; */
-  margin: 8px ;
+  margin: 8px;
 `;
 
 const Price = styled.p`
   font-weight: bold;
   /* background-color: yellow; */
-  margin: 8px ;
-
+  margin: 8px;
 `;

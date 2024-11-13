@@ -1,13 +1,14 @@
 // import './App.css';
-import Home from './components/Home';
-import Shop from './components/Shop';
+import Home from "./components/Home";
+import Shop from "./components/Shop";
+import UserContextProvider from "./context/UserContextProvider";
 
 function App() {
   return (
-    <>
-    <Home/>
-    {/* <Shop/> */}
-  </>
+    <UserContextProvider>
+      {/* <Home/> */}
+      <Shop />
+    </UserContextProvider>
   );
 }
 

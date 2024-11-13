@@ -24,19 +24,19 @@ const Container = styled.div`
 `;
 
 const Div1 = styled.div`
- width: 100%;
- height: 100px;
+ /* width: 100%;
+ height: 100px; */
 `;
 
 const Div2 = styled.div`
   display: flex;
   flex-grow: 1;
-  margin: 0;
+  margin-top: 0;
   padding: 0;
   background-image: url("bg.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-position: center;
+  /* background-position: center; */
   background-size: cover;
 `;
 
@@ -54,6 +54,6 @@ const Button = styled.button`
     color: black;
   }
   position: absolute;
-  top: 340px;
+  top: 400px;
   left: 300px;
 `;
