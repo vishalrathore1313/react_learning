@@ -8,7 +8,6 @@ const UserContextProvider = ({ children }) => {
   const [cartItem, setCartItem] = useState([]);
   const [quantity, setQuantity] = useState([]);
   const [products, setProducts] = useState([
-    // Clothing products
     {
       id: 1,
       title: "Graphic T-Shirt",
@@ -130,7 +129,6 @@ const UserContextProvider = ({ children }) => {
       image: Demoimage,
     },
   
-    // Electronics products
     {
       id: 16,
       title: "Smartphone",
@@ -252,7 +250,6 @@ const UserContextProvider = ({ children }) => {
       image: Demoimage,
     },
   
-    // Groceries products
     {
       id: 31,
       title: "Organic Flour",

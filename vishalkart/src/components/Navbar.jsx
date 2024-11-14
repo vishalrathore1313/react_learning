@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import UserContext from "../context/UserContext";
 
 function Navbar() {
+    const {cartItem} = useContext(UserContext);
+
   return (
     <Container>
       <Div1>
@@ -29,9 +32,12 @@ function Navbar() {
         <Img src="./logo.png" alt="Logo should be here" />
       </Logo>
       <Div2>
-        <Link to="/cart">
-          <FaShoppingCart size="40px" color="#1d4ed8" />
-        </Link>
+        <Span_CartLogo>
+          <Link to="/cart">
+            <FaShoppingCart size="40px" color="#1d4ed8" />
+          </Link>
+          <SpanCount>{cartItem.length}</SpanCount>
+        </Span_CartLogo>
         <Button>LogOut</Button>
       </Div2>
     </Container>
@@ -74,7 +80,7 @@ const LI = styled.li`
 `;
 
 const StyledLink = styled(Link)`
-  text-decoration: none; /* Remove underline */
+  text-decoration: none;
 `;
 
 const Logo = styled.div`
@@ -93,7 +99,7 @@ const Div2 = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 40px;
+  gap: 30px;
   padding: 35px;
   width: 120px;
 `;
@@ -117,4 +123,16 @@ const Span = styled.span`
   &:hover {
     color: #2455f4;
   }
+`;
+
+const Span_CartLogo = styled.span`
+  display: flex;
+`;
+const SpanCount = styled.span`
+ display: flex;
+ justify-content: center;
+  background-color: red;
+  border-radius: 50%;
+  height: 22px;
+  width: 22px;
 `;
