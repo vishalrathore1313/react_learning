@@ -4,15 +4,17 @@ import UserContext from "../context/UserContext";
 import { BiSolidLeftArrowSquare } from "react-icons/bi";
 import { BiSolidRightArrowSquare } from "react-icons/bi";
 
-function CartItem({item,index}) {
-    const {quantity, setQuantity}=useContext(UserContext);
+function CartItem({ item, index }) {
+  const {quantity, setQuantity } = useContext(UserContext);
 
-    // console.log("quantity=>"+quantity)
-    // console.log("item print in cartitem"+item.id)
-    // const temp=item.id;
-    // [item.id].id=item.id]
-    // setQuantity([...quantity,quantity[item.id].id=item.id])
-    // // setCartItem([...cartItem,item])
+  console.log("quatity array=>" + quantity[0]);
+
+  const incrementQuatity = () => {
+    setQuantity((prevq) => ({ ...prevq, [index]: (prevq[index] || 1) + 1 }));
+  };
+  const decrementQuatity = () => {
+    setQuantity((prevq) => ({ ...prevq, [index]: (prevq[index] || 1) - 1 }));
+  };
   return (
     <Container>
       <Div1>
@@ -21,12 +23,12 @@ function CartItem({item,index}) {
       <Div2>
         <Title>{item.title}</Title>
         <Dis>{item.description}</Dis>
-        <Price>₹{item.price}</Price>
+        <Price>₹{item.price * (quantity[index] || 1)}</Price>
         <Div3>
           {" "}
-          <BiSolidLeftArrowSquare size="30px" />
-          <Quantity>Quantity: $$$</Quantity>
-          <BiSolidRightArrowSquare size="30px" />
+          <BiSolidLeftArrowSquare size="30px" onClick={decrementQuatity} />
+          <Quantity>Quantity: {quantity[index] || 1}</Quantity>
+          <BiSolidRightArrowSquare size="30px" onClick={incrementQuatity} />
         </Div3>
       </Div2>
     </Container>
@@ -91,6 +93,5 @@ const Quantity = styled.p`
 `;
 
 const Div3 = styled.div`
- display: flex;
+  display: flex;
 `;
-

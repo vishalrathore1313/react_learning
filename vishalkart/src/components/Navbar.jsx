@@ -9,22 +9,19 @@ function Navbar() {
       <Div1>
         <UL>
           <LI>
-            {" "}
-            <Link to="/">
+            <StyledLink to="/">
               <Span>Home</Span>
-            </Link>
+            </StyledLink>
           </LI>
           <LI>
-            {" "}
-            <Link to="/shop">
+            <StyledLink to="/shop">
               <Span>Shop</Span>
-            </Link>
+            </StyledLink>
           </LI>
           <LI>
-            {" "}
-            <Link to="/shop">
+            <StyledLink to="/contact">
               <Span>Contact</Span>
-            </Link>
+            </StyledLink>
           </LI>
         </UL>
       </Div1>
@@ -35,7 +32,6 @@ function Navbar() {
         <Link to="/cart">
           <FaShoppingCart size="40px" color="#1d4ed8" />
         </Link>
-        {/* <FaShoppingCart size="10x" /> */}
         <Button>LogOut</Button>
       </Div2>
     </Container>
@@ -75,8 +71,12 @@ const LI = styled.li`
   &:hover {
     color: #2455f4;
   }
-  text-decoration: none;
 `;
+
+const StyledLink = styled(Link)`
+  text-decoration: none; /* Remove underline */
+`;
+
 const Logo = styled.div`
   display: flex;
   flex-direction: row;
@@ -117,5 +117,4 @@ const Span = styled.span`
   &:hover {
     color: #2455f4;
   }
-  text-decoration: none;
 `;
