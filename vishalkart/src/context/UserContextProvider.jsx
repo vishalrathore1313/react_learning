@@ -6,15 +6,17 @@ const UserContextProvider = ({ children }) => {
   const [priceRange, setPriceRang] = useState();
   const [category, setCategory] = useState();
   const [cartItem, setCartItem] = useState([]);
-  const [quantity, setQuantity] = useState([]);
+  const [grandTotal, setGrandTotal] = useState(0);
   const [products, setProducts] = useState([
     {
       id: 1,
       title: "Graphic T-Shirt",
       price: "199",
       category: "clothing",
-      description: "Comfortable cotton T-shirt with cool graphics for casual style.",
+      description:
+        "Comfortable cotton T-shirt with cool graphics for casual style.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 2,
@@ -23,6 +25,7 @@ const UserContextProvider = ({ children }) => {
       category: "clothing",
       description: "Classic blue denim jeans with a slim fit.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 3,
@@ -31,6 +34,7 @@ const UserContextProvider = ({ children }) => {
       category: "clothing",
       description: "Cozy hoodie with front pocket for chilly days.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 4,
@@ -39,6 +43,7 @@ const UserContextProvider = ({ children }) => {
       category: "clothing",
       description: "Elegant formal shirt for office wear or formal events.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 5,
@@ -47,6 +52,7 @@ const UserContextProvider = ({ children }) => {
       category: "clothing",
       description: "Breathable shorts perfect for summer activities.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 6,
@@ -55,6 +61,7 @@ const UserContextProvider = ({ children }) => {
       category: "clothing",
       description: "Stylish casual jacket suitable for all seasons.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 7,
@@ -63,6 +70,7 @@ const UserContextProvider = ({ children }) => {
       category: "clothing",
       description: "Comfortable track pants for workouts or lounging.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 8,
@@ -71,6 +79,7 @@ const UserContextProvider = ({ children }) => {
       category: "clothing",
       description: "Cool baseball cap to complete your casual look.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 9,
@@ -79,6 +88,7 @@ const UserContextProvider = ({ children }) => {
       category: "clothing",
       description: "Durable leather belt with a classic design.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 10,
@@ -87,6 +97,7 @@ const UserContextProvider = ({ children }) => {
       category: "clothing",
       description: "Warm wool sweater for cold weather.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 11,
@@ -95,6 +106,7 @@ const UserContextProvider = ({ children }) => {
       category: "clothing",
       description: "Casual polo shirt with a comfortable fit.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 12,
@@ -103,6 +115,7 @@ const UserContextProvider = ({ children }) => {
       category: "clothing",
       description: "Waterproof raincoat to stay dry on rainy days.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 13,
@@ -111,6 +124,7 @@ const UserContextProvider = ({ children }) => {
       category: "clothing",
       description: "Soft and durable socks for everyday wear.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 14,
@@ -119,6 +133,7 @@ const UserContextProvider = ({ children }) => {
       category: "clothing",
       description: "High-quality leather jacket for a stylish look.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 15,
@@ -127,8 +142,9 @@ const UserContextProvider = ({ children }) => {
       category: "clothing",
       description: "Comfortable joggers for casual outings or gym wear.",
       image: Demoimage,
+      quantity: 1,
     },
-  
+
     {
       id: 16,
       title: "Smartphone",
@@ -136,6 +152,7 @@ const UserContextProvider = ({ children }) => {
       category: "electronics",
       description: "Latest model smartphone with high-resolution camera.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 17,
@@ -144,6 +161,7 @@ const UserContextProvider = ({ children }) => {
       category: "electronics",
       description: "Wireless headphones with noise-canceling feature.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 18,
@@ -152,6 +170,7 @@ const UserContextProvider = ({ children }) => {
       category: "electronics",
       description: "Stylish smartwatch with fitness tracking.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 19,
@@ -160,6 +179,7 @@ const UserContextProvider = ({ children }) => {
       category: "electronics",
       description: "Ultra HD 4K TV with vibrant colors and smart features.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 20,
@@ -168,6 +188,7 @@ const UserContextProvider = ({ children }) => {
       category: "electronics",
       description: "High-performance laptop for work and entertainment.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 21,
@@ -176,6 +197,7 @@ const UserContextProvider = ({ children }) => {
       category: "electronics",
       description: "Portable tablet with a large display for entertainment.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 22,
@@ -184,6 +206,7 @@ const UserContextProvider = ({ children }) => {
       category: "electronics",
       description: "Portable Bluetooth speaker with rich sound quality.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 23,
@@ -192,14 +215,17 @@ const UserContextProvider = ({ children }) => {
       category: "electronics",
       description: "Advanced gaming console with 4K support.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 24,
       title: "Digital Camera",
       price: "15999",
       category: "electronics",
-      description: "Compact digital camera with HD photo and video capabilities.",
+      description:
+        "Compact digital camera with HD photo and video capabilities.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 25,
@@ -208,6 +234,7 @@ const UserContextProvider = ({ children }) => {
       category: "electronics",
       description: "1TB external hard drive for data storage.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 26,
@@ -216,6 +243,7 @@ const UserContextProvider = ({ children }) => {
       category: "electronics",
       description: "Compact power bank with fast-charging capability.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 27,
@@ -224,6 +252,7 @@ const UserContextProvider = ({ children }) => {
       category: "electronics",
       description: "Voice-activated smart assistant for home automation.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 28,
@@ -232,6 +261,7 @@ const UserContextProvider = ({ children }) => {
       category: "electronics",
       description: "Fast-boiling electric kettle with automatic shut-off.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 29,
@@ -240,6 +270,7 @@ const UserContextProvider = ({ children }) => {
       category: "electronics",
       description: "Efficient air purifier to remove indoor pollutants.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 30,
@@ -248,8 +279,9 @@ const UserContextProvider = ({ children }) => {
       category: "electronics",
       description: "Smooth and responsive wireless mouse for computers.",
       image: Demoimage,
+      quantity: 1,
     },
-  
+
     {
       id: 31,
       title: "Organic Flour",
@@ -257,6 +289,7 @@ const UserContextProvider = ({ children }) => {
       category: "groceries",
       description: "100% organic wheat flour for healthy meals.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 32,
@@ -265,6 +298,7 @@ const UserContextProvider = ({ children }) => {
       category: "groceries",
       description: "Extra virgin olive oil for cooking and salads.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 33,
@@ -273,6 +307,7 @@ const UserContextProvider = ({ children }) => {
       category: "groceries",
       description: "Refreshing green tea, packed with antioxidants.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 34,
@@ -289,6 +324,7 @@ const UserContextProvider = ({ children }) => {
       category: "groceries",
       description: "Crunchy almonds rich in protein and healthy fats.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 36,
@@ -297,6 +333,7 @@ const UserContextProvider = ({ children }) => {
       category: "groceries",
       description: "Natural honey, a perfect sweetener for your drinks.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 37,
@@ -305,6 +342,7 @@ const UserContextProvider = ({ children }) => {
       category: "groceries",
       description: "Healthy whole wheat pasta for wholesome meals.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 38,
@@ -313,6 +351,7 @@ const UserContextProvider = ({ children }) => {
       category: "groceries",
       description: "Unrefined brown sugar for healthier sweetness.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 39,
@@ -321,6 +360,7 @@ const UserContextProvider = ({ children }) => {
       category: "groceries",
       description: "Healthy and nutritious oats for breakfast.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 40,
@@ -329,6 +369,7 @@ const UserContextProvider = ({ children }) => {
       category: "groceries",
       description: "High-protein black beans for nutritious meals.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 41,
@@ -337,6 +378,7 @@ const UserContextProvider = ({ children }) => {
       category: "groceries",
       description: "Pure coconut oil for cooking and hair care.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 42,
@@ -345,6 +387,7 @@ const UserContextProvider = ({ children }) => {
       category: "groceries",
       description: "Assorted organic spices for flavorful cooking.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 43,
@@ -353,6 +396,7 @@ const UserContextProvider = ({ children }) => {
       category: "groceries",
       description: "Dairy-free almond milk for lactose-intolerant individuals.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 44,
@@ -361,6 +405,7 @@ const UserContextProvider = ({ children }) => {
       category: "groceries",
       description: "Nutrient-rich chia seeds for smoothies and salads.",
       image: Demoimage,
+      quantity: 1,
     },
     {
       id: 45,
@@ -369,10 +414,10 @@ const UserContextProvider = ({ children }) => {
       category: "groceries",
       description: "Protein-rich quinoa for a balanced diet.",
       image: Demoimage,
+      quantity: 1,
     },
   ]);
-  
-  
+
   return (
     <UserContext.Provider
       value={{
@@ -384,8 +429,8 @@ const UserContextProvider = ({ children }) => {
         setCategory,
         cartItem,
         setCartItem,
-        quantity,
-        setQuantity,
+        grandTotal,
+        setGrandTotal,
       }}
     >
       {children}

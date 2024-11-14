@@ -13,16 +13,26 @@ function Shop() {
     const matchCategory = category ? product.category === category : true;
 
     const matchPrice = priceRange
-      ? (priceRange === "0-50" && product.price >= 0 && product.price <= 50) ||
-        (priceRange === "50-100" &&
+      ? (priceRange === "50-100" &&
           product.price >= 50 &&
           product.price <= 100) ||
         (priceRange === "100-200" &&
           product.price >= 100 &&
           product.price <= 200) ||
-        (priceRange == "200+" && product.price >= 200)
+        (priceRange === "200-500" &&
+          product.price >= 200 &&
+          product.price <= 500) ||
+        (priceRange === "500-1000" &&
+          product.price >= 500 &&
+          product.price <= 1000) ||
+        (priceRange === "1000-2000" &&
+          product.price >= 1000 &&
+          product.price <= 2000) ||
+        (priceRange === "2000-3000" &&
+          product.price >= 2000 &&
+          product.price <= 3000) ||
+        (priceRange === "3000+" && product.price >= 3000)
       : true;
-
 
     return matchCategory && matchPrice;
   });

@@ -4,7 +4,6 @@ import UserContext from "../context/UserContext";
 
 function Card({item}) {
   const {cartItem,setCartItem} = useContext(UserContext);
-//   console.log("cartItem array in Card=>"+cartItem);
   return (
     <Container>
       <Div1>

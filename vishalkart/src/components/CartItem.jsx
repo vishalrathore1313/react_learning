@@ -6,23 +6,22 @@ import { BiSolidRightArrowSquare } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 function CartItem({ item, index }) {
-  const { quantity, setQuantity,cartItem, setCartItem} = useContext(UserContext);
-
-   console.log("quantity in cartitem=>"+quantity+" "+typeof quantity)
+  const {cartItem, setCartItem,products, setProducts} = useContext(UserContext);
    
   const incrementQuantity = () => {
-    setQuantity((prevq) => ({ ...prevq, [index]: (prevq[index] || 1) + 1 }));
+    item.quantity=(item.quantity)+1;
+    setProducts([...products,item])
   };
 
   const decrementQuantity = () => {
-    setQuantity((prevq) => ({
-      ...prevq,
-      [index]: prevq[index] > 1 ? prevq[index] - 1 : 1,
-    }));
+    if(item.quantity>1){item.quantity=(item.quantity)-1}
+    setProducts([...products,item])
   };
 
   const deleteCartItem = () => {
     setCartItem((prevq) => prevq.filter((_, i) => i !== index));
+    item.quantity=1;
+    setProducts([...products,item])
   };
 
   return (
@@ -33,12 +32,12 @@ function CartItem({ item, index }) {
       <Div2>
         <Title>{item.title}</Title>
         <Dis>{item.description}</Dis>
-        <Price>₹{item.price * (quantity[index] || 1)}</Price>
+        <Price>₹{item.price * item.quantity}</Price>
         <Div3>
           {" "}
           <BiSolidLeftArrowSquare size="30px" onClick={decrementQuantity} />
-          <Quantity>Quantity: {quantity[index] || 1}</Quantity>
-          <BiSolidRightArrowSquare size="30px" onClick={incrementQuantity} />
+          <Quantity>Quantity: {item.quantity} </Quantity>
+          <BiSolidRightArrowSquare size="30px" onClick={incrementQuantity}/>
           <Div4><RiDeleteBin6Line size="35px" color="black" onClick={deleteCartItem}/>
           </Div4>
         </Div3>
