@@ -49,7 +49,7 @@ function Shop() {
           filterProducts.length > 0 &&
           filterProducts.map((item, index) => (
             <div key={index}>
-              <Card item={item} />
+              <Card item={item}/>
             </div>
           ))}
       </Div2>

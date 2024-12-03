@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 function Bill() {
   const { grandTotal, cartItem } = useContext(UserContext);
 
-  const discount = (grandTotal * 11) / 100;
-  const tax = ((grandTotal - discount) * 18) / 100;
+  const discount = (grandTotal * 9) / 100;
+  const tax = ((grandTotal - discount) * 12) / 100;
   const delivery_charge = 100;
   const payment = grandTotal - discount + tax + delivery_charge;
   return (
@@ -121,7 +121,7 @@ const BuyNowButton = styled.button`
 `;
 
 const BackButton = styled.button`
-  width: 80px;
+  width: 100px;
   font-size: 80%;
   color: white;
   padding: 10px;
@@ -132,4 +132,6 @@ const BackButton = styled.button`
   &:hover {
     background-color: blue;
   }
+  margin-left: 900px;
+  margin-top: 200px;
 `;

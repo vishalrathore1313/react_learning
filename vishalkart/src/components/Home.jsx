@@ -43,15 +43,15 @@ const Div2 = styled.div`
  const Span= styled.span`
   font-size: 120%;
   font-weight: bold;
-  color: white;
+  color: black  ;
   padding: 12px;
   border: none;
   border-radius: 8px;
-  background-color: black;
+  background-color: white;
   cursor: pointer;
   &:hover {
-    background-color: white;
-    color: black;
+    background-color: black;
+    color: white;
   }
   position: absolute;
   top: 400px;
